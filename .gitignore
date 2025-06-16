@@ -1,0 +1,36 @@
+# Flutter & Dart
+**/build/
+**/.dart_tool/
+**/.packages
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/pubspec.lock
+
+# Firebase & Platform
+**/ios/Pods/
+**/android/.gradle/
+**/android/app/*.keystore
+**/macos/Pods/
+**/web/.firebase/
+
+# Linux/Windows
+**/windows/.flutter-plugins
+**/windows/flutter/ephemeral
+**/linux/flutter/ephemeral
+
+# JetBrains IDE
+.idea/
+*.iml
+
+# Xcode
+*.xcworkspace
+*.xcodeproj
+*.xcuserstate
+DerivedData/
+
+# Other
+*.log
+*.tmp

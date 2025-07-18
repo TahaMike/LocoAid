@@ -1,55 +1,85 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static Color get primary => const Color(0xFFA383ED);
-  static Color get secondary => const Color(0xFFF4F0FF);
-  static Color get background => Colors.white;
-  static Color get accent => const Color(0xFFE3DAF9);
-  static Color get darkText => const Color(0xFF1E1E1E);
-  static Color get lightText => Colors.white;
-  static Color get disabled => const Color(0xFFC5BEE3);
+  static const Color primaryColor = Color(0xFF2B60A1); // from image
+  static const Color secondaryColor = Color(0xFF98C6F2); // from image
+  static const Color backgroundLight = Color(0xFFF5F9FF);
+  static const Color backgroundDark = Color(0xFF1C1C1E);
+  static const Color textColorLight = Colors.black;
+  static const Color textColorDark = Colors.white;
 
-  static ThemeData get lightTheme {
-    return ThemeData(
-      scaffoldBackgroundColor: background,
-      fontFamily: 'Roboto',
-      colorScheme: ColorScheme.light(
-        primary: primary,
-        secondary: secondary,
-        background: background,
-        surface: Colors.white,
-        onPrimary: lightText,
-        onSecondary: darkText,
-        onBackground: darkText,
-        onSurface: darkText,
+  static ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    colorScheme: ColorScheme.light(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      background: backgroundLight,
+      surface: Colors.white,
+      onPrimary: Colors.white,
+      onSecondary: Colors.black,
+      onBackground: Colors.black,
+      onSurface: Colors.black,
+    ),
+    scaffoldBackgroundColor: backgroundLight,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
       ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: darkText),
-        headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: darkText),
-        bodyLarge: TextStyle(fontSize: 16, color: darkText),
-        bodyMedium: TextStyle(fontSize: 14, color: darkText),
-        labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: darkText),
+    ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: AppTheme.textColorLight),
+      bodyMedium: TextStyle(color: AppTheme.textColorLight),
+      headlineMedium: TextStyle(
+        color: AppTheme.textColorLight,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primary,
-          foregroundColor: lightText,
-          textStyle: const TextStyle(fontWeight: FontWeight.bold),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+    ),
+  );
+
+  static ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    colorScheme: ColorScheme.dark(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      background: backgroundDark,
+      surface: const Color(0xFF2C2C2E),
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onBackground: Colors.white,
+      onSurface: Colors.white,
+    ),
+    scaffoldBackgroundColor: backgroundDark,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.grey[900],
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
       ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: secondary,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        labelStyle: TextStyle(color: darkText),
-        hintStyle: TextStyle(color: disabled),
+    ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: AppTheme.textColorDark),
+      bodyMedium: TextStyle(color: AppTheme.textColorDark),
+      headlineMedium: TextStyle(
+        color: AppTheme.textColorDark,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
       ),
-    );
-  }
+    ),
+  );
 }

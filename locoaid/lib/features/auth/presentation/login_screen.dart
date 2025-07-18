@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.secondary,
+      backgroundColor: AppTheme.secondaryColor,
       body: Center(
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 600),
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.lock, size: 60, color: AppTheme.primary),
+                Icon(Icons.lock, size: 60, color: AppTheme.primaryColor),
                 const SizedBox(height: 16),
                 Text("Welcome Back", style: Theme.of(context).textTheme.headlineMedium),
                 const SizedBox(height: 32),
@@ -75,8 +75,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 ElevatedButton(
                   onPressed: _onLoginPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primary,
-                    foregroundColor: AppTheme.lightText,
+                    backgroundColor: AppTheme.primaryColor,
+                    // foregroundColor: Theme.of(context).textTheme as Color,
                     minimumSize: const Size(double.infinity, 48),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

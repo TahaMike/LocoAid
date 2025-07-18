@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:locoaid/features/navigation/presentation/main_navigation.dart';
 import '../widgets/doctor_card.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/calendar_bar.dart';
@@ -35,8 +36,8 @@ class HomeScreen extends ConsumerWidget {
               child: Text('Go_to_date'),
             ),
             const SizedBox(height: 16),
-            const Text("Available Psychologists",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text("Available Psychologists",
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
             const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
@@ -49,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                   imageUrl: "https://randomuser.me/api/portraits/women/79.jpg",
                 ).animate().fadeIn(duration: 300.ms, delay: (index * 100).ms).slideY(begin: 0.1),
               ),
-            )
+            ),
           ],
         ),
       ),

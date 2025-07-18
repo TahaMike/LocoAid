@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.primary,
+      backgroundColor: AppTheme.primaryColor,
       body: Center(
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 800),
@@ -35,11 +35,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.healing_rounded, size: 80, color: AppTheme.lightText),
+              Icon(Icons.healing_rounded, size: 80, color: Theme.of(context).canvasColor, ),
               const SizedBox(height: 16),
               Text(
                 "LocoAid",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppTheme.lightText),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ],
           ),

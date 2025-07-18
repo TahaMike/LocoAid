@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:locoaid/features/navigation/presentation/main_navigation.dart';
 import '../widgets/doctor_card.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/calendar_bar.dart';

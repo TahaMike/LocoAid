@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
@@ -9,7 +7,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,

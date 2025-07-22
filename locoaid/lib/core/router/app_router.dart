@@ -8,7 +8,7 @@ import '../../presentation/pages/sign_up_screen.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', builder: (context, state) => const SignUpScreen()),
+    GoRoute(path: '/', builder: (context, state) => const SignUpScreen()), // change This to SplashScreen()
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginScreen(), // Next step

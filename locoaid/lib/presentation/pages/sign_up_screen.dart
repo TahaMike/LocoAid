@@ -1,4 +1,4 @@
-   import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:locoaid/core/theme/app_theme.dart';
 import 'package:locoaid/presentation/widgets/custom_widgets.dart';
 
@@ -10,15 +10,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool isPassword = true;
+  String? _selectedGender;
 
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _userNameController = TextEditingController();
-  // final _userAgeController = TextEditingController();
-  // final _userGenderController = TextEditingController();
-  // final _userPhoneNumberController = TextEditingController();
-
-  
+  final _userAgeController = TextEditingController();
+  final _userPhoneNumberController = TextEditingController();
 
   double _opacity = 0.0;
 
@@ -32,11 +30,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _userAgeController.dispose();
+    _userNameController.dispose();
+    _userPhoneNumberController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,21 +50,161 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.lock, size: 60, color: AppTheme.primaryColor),
+                customSvgWidget(
+                  filePath: 'assets/icons/lock.svg',
+                  height: 70,
+                  width: 70,
+                ),
                 const SizedBox(height: 16),
-                customNormalTextWidget(text: "Feeling Sick?! Connect n Forget", isBold: false, fontSize: 20),
+                customNormalTextWidget(
+                  text: "Feeling Sick?! Connect n Forget",
+                  isBold: false,
+                  fontSize: 22,
+                ),
                 const SizedBox(height: 32),
 
-                customTextField(fieldController: _userNameController, labelTextUsed: "Full Name", iconUsed: Icons.person, iconUsedColor: Colors.black, ),
-                
-                const SizedBox(height: 8),
-                customTextField(fieldController: _emailController, labelTextUsed: "Email", iconUsed: Icons.email, iconUsedColor: Colors.black, ),
-                
-                const SizedBox(height: 8),
-                customTextField(fieldController: _passwordController, isPassword: true, labelTextUsed: "Password", iconUsed: Icons.lock, iconUsedColor: Colors.black, iconSize: 25),
-                
-                const SizedBox(height: 14),
+                customTextField(
+                  fieldController: _userNameController,
+                  labelTextUsed: "Full Name",
+                  iconUsed: Icons.person,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
+                ),
 
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: customTextField(
+                        fieldController: _userAgeController,
+                        labelTextUsed: "Age",
+                        iconUsed: Icons.person_3_outlined,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your age';
+                          }
+                          final age = int.tryParse(value.trim());
+                          if (age == null) {
+                            return 'Age must be a number';
+                          }
+                          if (age <= 0 || age > 120) {
+                            return 'Enter a valid age between 1 and 120';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Flexible(
+                      flex: 2,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedGender,
+                        decoration: InputDecoration(
+                          labelText: 'Gender',
+                          prefixIcon: (_selectedGender == 'Male')
+                              ? Icon(Icons.male, color: AppTheme.primaryColor)
+                              : (_selectedGender == 'Female')
+                              ? Icon(Icons.female, color: AppTheme.primaryColor)
+                              : Icon(
+                                  Icons.transgender,
+                                  color: AppTheme.primaryColor,
+                                ), // optional
+                          iconColor: AppTheme.primaryColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        items: ['Male', 'Female', 'Other']
+                            .map(
+                              (gender) => DropdownMenuItem(
+                                value: gender,
+                                child: customNormalTextWidget(
+                                  text: gender,
+                                  isBold: false,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                            .toList(), //map
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedGender = value;
+                          });
+                        },
+                        validator: (value) =>
+                            value == null ? 'Please select a gender' : null,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 8),
+                customTextField(
+                  fieldController: _userPhoneNumberController,
+                  labelTextUsed: "Phone Number",
+                  iconUsed: Icons.phone,
+                  iconUsedColor: AppTheme.primaryColor,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your Mobile Number';
+                    }
+                    final phone = int.tryParse(value.trim());
+                    if (phone == null) {
+                      return 'A Mobile number is required';
+                    }
+                    if (phone <= 1000000000 || phone > 9999999999) {
+                      return 'Enter a valid mobile number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 8),
+
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: isPassword,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.lock_outline_rounded,
+                      color: AppTheme.primaryColor,
+                      size: 25,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isPassword = !isPassword;
+                        });
+                      },
+                      icon: isPassword
+                          ? customSvgWidget(
+                              filePath: 'assets/icons/eye_closed.svg',
+                            )
+                          : customSvgWidget(
+                              filePath: 'assets/icons/eye_open.svg',
+                            ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Password is required';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters';
+                    }
+                    return null; // ✅ Very important
+                  },
+                ),
+                const SizedBox(height: 14),
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -77,17 +216,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("SignUp", style: TextStyle(fontSize: 16, color: AppTheme.textColorLight)),
+                  child: const Text(
+                    "SignUp",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppTheme.textColorLight,
+                    ),
+                  ),
                 ),
 
                 // const SizedBox(height: 5),
                 TextButton(
                   onPressed: () {},
-                  style: ButtonStyle(
-                    // elevation: WidgetStateProperty.all(5),
-                    // shadowColor: WidgetStateProperty.all(Colors.black26),
+                  child: customNormalTextWidget(
+                    text: "Already have an account?",
+                    isBold: false,
                   ),
-                  child: customNormalTextWidget(text: "Already have an account?", isBold: false),
                 ),
               ],
             ),

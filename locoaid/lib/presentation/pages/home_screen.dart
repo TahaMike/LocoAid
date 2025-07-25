@@ -10,7 +10,7 @@ class HomeScreen extends ConsumerWidget {
     // final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text("Hi, Taha 👋", style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,

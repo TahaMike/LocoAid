@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:locoaid/core/theme/app_theme.dart';
 
 // Normal Text Widget
@@ -20,37 +21,64 @@ Widget customTextField({
   required TextEditingController fieldController,
   required String labelTextUsed,
   required IconData iconUsed,
-  required Color iconUsedColor,
-  bool? isPassword,
+  FormFieldValidator<String>? validator,
   double? iconSize,
-}) => TextField(
-  controller: fieldController,
-  obscureText: isPassword?? false,
-  decoration: InputDecoration(
-    labelText: labelTextUsed,
-    prefixIcon: Icon(iconUsed, size: iconSize, color: iconUsedColor,),
+  Color? textColor,
+  Color? iconUsedColor,
+  bool? isPassword,
+}) => Material(
+  elevation: 3,
+  borderRadius: BorderRadius.circular(10),
+  shadowColor: AppTheme.primaryColor.withOpacity(0.8),
+  child: TextFormField(
+    controller: fieldController,
+    obscureText: isPassword ?? false,
+    decoration: InputDecoration(
+      labelText: labelTextUsed,
+      labelStyle: TextStyle(color: textColor ?? Colors.black),
+      prefixIcon: Icon(
+        iconUsed,
+        size: iconSize,
+        color: iconUsedColor ?? AppTheme.primaryColor,
+      ),
+    ),
+    validator: validator,
   ),
 );
 
-
-
-
 // Normal Icon Used Widget
-Widget customNormalIconWidget({required IconData iconUsed, double? size}) =>
-    Icon(iconUsed, size: size, color: AppTheme.iconColor);
+Widget customNormalIconWidget({
+  required IconData iconUsed,
+  Color? iconUsedColor,
+  double? size,
+}) => Icon(iconUsed, size: size, color: iconUsedColor ?? AppTheme.primaryColor);
 
-
-
-
-// Normal Buttons Widgets
-Widget custonButton({
+// custom Elevated Button Widget
+Widget customButton({
   required String buttonName,
-
+  required VoidCallback onPressed,
+  Color? buttonColor,
 }) => ElevatedButton(
   onPressed: () {},
   style: ButtonStyle(
-    backgroundColor: WidgetStateProperty.all(AppTheme.secondaryColor),
+    backgroundColor: WidgetStateProperty.all(
+      buttonColor ?? AppTheme.secondaryColor,
+    ),
   ),
-  child: Text(''),
+  child: Text(buttonName, style: TextStyle()),
+);
 
+// custom SVG file Widget with different size
+Widget customSvgWidget({
+  required String filePath,
+  double? height,
+  double? width,
+  Color? svgColorUsed,
+}) => SvgPicture.asset(
+  filePath,
+  color: svgColorUsed ?? AppTheme.primaryColor,
+  // colorBlendMode: BlendMode.dstATop,
+  package: 'shared',
+  height: height ?? 25,
+  width: width ?? 25,
 );

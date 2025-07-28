@@ -21,7 +21,7 @@ Widget customTextField({
   required TextEditingController fieldController,
   required String labelTextUsed,
   required IconData iconUsed,
-  FormFieldValidator<String>? validator,
+  FormFieldValidator? validator,
   double? iconSize,
   Color? textColor,
   Color? iconUsedColor,
@@ -68,6 +68,7 @@ Widget customButton({
   child: Text(buttonName, style: TextStyle()),
 );
 
+
 // custom SVG file Widget with different size
 Widget customSvgWidget({
   required String filePath,
@@ -82,3 +83,35 @@ Widget customSvgWidget({
   height: height ?? 25,
   width: width ?? 25,
 );
+
+
+
+// custom Text Button with router, fuction calling defined on the different page where this widget is called
+Widget customTextButton({
+  required String buttonName,
+  required VoidCallback onPressed,
+  bool isDarkButton = false,
+}) {
+  return TextButton(
+    onPressed: onPressed,
+    style: ButtonStyle(
+      backgroundColor: isDarkButton? WidgetStatePropertyAll(AppTheme.primaryColor): WidgetStatePropertyAll(AppTheme.secondaryColor),
+    ),
+    child: customNormalTextWidget(text: buttonName, isBold: false, ),
+  );
+}
+
+
+Widget customElevatedButton({
+  required String buttonName,
+  required VoidCallback onPressed,
+  bool isDarkButton = false,
+}) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    style: ButtonStyle(
+      backgroundColor: isDarkButton? WidgetStatePropertyAll(AppTheme.primaryColor): WidgetStatePropertyAll(AppTheme.secondaryColor),
+    ),
+    child: customNormalTextWidget(text: buttonName, isBold: false, ),
+  );
+}

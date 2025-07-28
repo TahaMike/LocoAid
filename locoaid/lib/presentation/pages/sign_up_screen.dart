@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:locoaid/core/theme/app_theme.dart';
-import 'package:locoaid/presentation/widgets/custom_widgets.dart';
+import 'package:locoaid/presentation/widgets/custom_text_widgets.dart';
+import 'package:locoaid/presentation/widgets/custom_normal_widgets.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -173,14 +174,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (phone == null) {
                         return 'A Mobile number is required';
                       }
-                      if (phone <= 1000000000 || phone > 9999999999) {
+                      if (value.length != 10) {
                         return 'Enter a valid mobile number';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 8),
-
                   Material(
                     elevation: 3,
                     borderRadius: BorderRadius.circular(10),
@@ -255,7 +255,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   // const SizedBox(height: 5),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/login');
+                    },
                     child: customNormalTextWidget(
                       text: "Already have an account?",
                       isBold: false,

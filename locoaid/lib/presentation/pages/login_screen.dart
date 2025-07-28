@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:locoaid/presentation/widgets/custom_text_widgets.dart';
+import 'package:locoaid/presentation/widgets/custom_normal_widgets.dart';
 import '../../../core/theme/app_theme.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,10 +11,11 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  final _loginFormKey = GlobalKey<FormState>();
+  final _userPhoneNumberController = TextEditingController();
+  final _otpController = TextEditingController();
   double _opacity = 0.0;
 
   @override
@@ -25,72 +28,130 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _userPhoneNumberController.dispose();
     super.dispose();
-  }
-
-  void _onLoginPressed() {
-    context.go('/home');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.secondaryColor,
-      body: Center(
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 600),
-          opacity: _opacity,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.lock, size: 60, color: AppTheme.primaryColor),
-                const SizedBox(height: 16),
-                Text("Welcome Back", style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 32),
+      body: Form(
+        key: _loginFormKey,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Center(
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 600),
 
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    prefixIcon: Icon(Icons.email),
+              opacity: _opacity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customSvgWidget(
+                    filePath: 'assets/icons/lock.svg',
+                    height: 70,
+                    width: 70,
                   ),
-                ),
-                const SizedBox(height: 16),
-
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    prefixIcon: Icon(Icons.lock),
+                  const SizedBox(height: 10),
+                  customNormalTextWidget(
+                    text: "Welcome Back",
+                    isBold: false,
+                    fontSize: 22,
                   ),
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 32),
 
-                ElevatedButton(
-                  onPressed: _onLoginPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    // foregroundColor: Theme.of(context).textTheme as Color,
-                    minimumSize: const Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                  Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(10),
+                    shadowColor: AppTheme.primaryColor.withOpacity(0.8),
+                    child: TextFormField(
+                      controller: _userPhoneNumberController,
+                      decoration: InputDecoration(
+                        labelText: 'PhoneNumber',
+                        labelStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(
+                          Icons.lock_outline_rounded,
+                          color: AppTheme.primaryColor,
+                          size: 25,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {});
+                          },
+                          icon: customSvgWidget(
+                            filePath: 'assets/icons/otp.svg',
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter your Phone number';
+                        }
+                        final phone = int.tryParse(value.trim());
+                        if (phone == null) {
+                          return 'Numbers are required';
+                        }
+                        if (value.length != 10) {
+                          return 'Enter a valid Phone Number';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  child: const Text("Login", style: TextStyle(fontSize: 16)),
-                ),
 
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Don't have an account?"),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  customTextField(
+                    fieldController: _otpController,
+                    labelTextUsed: "Enter OTP",
+                    iconUsed: Icons.password,
+                    iconUsedColor: AppTheme.primaryColor,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter your OTP';
+                      }
+                      final phone = int.tryParse(value.trim());
+                      if (phone == null) {
+                        return 'Numbers are required';
+                      }
+                      if (value.length != 4) {
+                        return 'Enter a valid OTP';
+                      }
+                      return null;
+                    },
+                  ), // phone number field
+
+                  const SizedBox(height: 10),
+                  // login Button
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_loginFormKey.currentState!.validate()) {
+                        context.go('/homescreen');
+                        // All good! ✅
+                      } else {
+                        // Show errors 🚫
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      elevation: 5,
+                      shadowColor: Colors.black26,
+                      minimumSize: const Size(double.infinity, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: AppTheme.secondaryColor),
+                      ),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppTheme.textColorLight,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
